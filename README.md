@@ -244,15 +244,75 @@ To stop AegisSOC, return to the PowerShell window and press:
 Ctrl+C
 ```
 
-### Safe demo mode
+## Safe Demo Mode
 
-For presentations and testing:
+AegisSOC includes a safe simulation mode for demonstrations, testing, and portfolio presentations.
+
+Start it with:
 
 ```powershell
 python main.py --demo
 ```
 
-Demo mode uses simulated security events and does not execute malicious commands, modify persistence settings, or send attack traffic.
+When demo mode is active, the application can generate a simulated attack chain consisting of five stages:
+
+1. Office application spawning PowerShell
+2. Encoded PowerShell activity
+3. Suspicious external network connection
+4. Executable appearing in a temporary directory
+5. Startup persistence activity
+
+These events are generated internally by AegisSOC.
+
+The simulation does **not**:
+
+- execute malicious PowerShell commands;
+- download payloads;
+- create malware;
+- modify the Windows registry;
+- create real persistence;
+- connect to external attack infrastructure;
+- exploit the operating system.
+
+All generated demo events and alerts are marked as:
+
+```text
+SIMULATED
+```
+
+The simulated alerts share a common correlation identifier, allowing AegisSOC to group them into a single incident and display the complete attack story in the incident timeline.
+
+A typical simulated incident demonstrates:
+
+```text
+Office Application
+        ↓
+PowerShell Execution
+        ↓
+Encoded Command
+        ↓
+Outbound Connection
+        ↓
+File in Temp
+        ↓
+Persistence
+```
+
+The purpose of demo mode is to demonstrate the detection, alerting, correlation, WebSocket, database, and investigation workflow without performing a real attack.
+
+### Generate a test alert
+
+AegisSOC also includes a harmless test alert.
+
+The test alert is created internally and confirms that:
+
+- alert creation works;
+- SQLite storage works;
+- API delivery works;
+- realtime WebSocket updates work;
+- alert status management works.
+
+No system command or network request is executed when generating the test alert.
 
 ### Alternative port
 
