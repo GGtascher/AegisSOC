@@ -118,31 +118,155 @@ Press **Safe Attack Simulation** to generate five clearly marked `SIMULATED` sta
 
 ## Installation
 
-Requirements: Windows 11, Python 3.12 or newer, and Node.js with npm for the first frontend build.
+### Requirements
+
+AegisSOC is designed primarily for Windows 11.
+
+Before installation, make sure the following software is available:
+
+- Python 3.12 or newer
+- Node.js LTS with npm
+- Git
+
+Check the installed versions:
 
 ```powershell
-cd "PATH"
+python --version
+node --version
+npm --version
+git --version
+```
+
+### 1. Clone the repository
+
+Open PowerShell and run:
+
+```powershell
+git clone https://github.com/GGtascher/AegisSOC.git
+cd AegisSOC
+```
+
+### 2. Create a Python virtual environment
+
+```powershell
 python -m venv .venv
+```
+
+If PowerShell blocks script execution, allow it only for the current terminal session:
+
+```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
+Activate the virtual environment:
+
+```powershell
 .\.venv\Scripts\Activate.ps1
+```
+
+After activation, the terminal should normally show `(.venv)` before the prompt.
+
+### 3. Install Python dependencies
+
+```powershell
+python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
+```
+
+### 4. Build the frontend
+
+```powershell
 cd frontend
-npm install
+npm ci
 npm run build
 cd ..
 ```
 
-The application itself runs offline after dependencies are installed.
+The production frontend will be created in:
+
+```text
+frontend\dist
+```
+
+FastAPI serves this compiled frontend directly, so a separate Vite development server is not required during normal use.
+
+### 5. Run the test suite
+
+Before the first start, you can verify the installation with:
+
+```powershell
+python -m pytest -q
+```
+
+### 6. Start AegisSOC
+
+```powershell
+python main.py
+```
+
+Open the dashboard in your browser:
+
+```text
+http://127.0.0.1:8765
+```
+
+You can also verify the backend directly:
+
+```text
+http://127.0.0.1:8765/api/health
+```
+
+A healthy installation should report that the application and local database are available.
+
+After the dependencies have been installed and the frontend has been built, AegisSOC does not require Internet access during normal operation.
+
+---
 
 ## Usage
 
+Activate the project environment before starting AegisSOC:
+
 ```powershell
-cd "PATH"
+cd AegisSOC
 .\.venv\Scripts\Activate.ps1
 python main.py
 ```
 
-Open `http://127.0.0.1:8765`. The final build does not require a separate Vite process. `run.bat` starts the same local server.
+Then open:
+
+```text
+http://127.0.0.1:8765
+```
+
+To stop AegisSOC, return to the PowerShell window and press:
+
+```text
+Ctrl+C
+```
+
+### Safe demo mode
+
+For presentations and testing:
+
+```powershell
+python main.py --demo
+```
+
+Demo mode uses simulated security events and does not execute malicious commands, modify persistence settings, or send attack traffic.
+
+### Alternative port
+
+If port `8765` is already in use:
+
+```powershell
+python main.py --port 8766
+```
+
+Then open:
+
+```text
+http://127.0.0.1:8766
+```
 
 ## Administrator Mode
 
