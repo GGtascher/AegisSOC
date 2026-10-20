@@ -1,0 +1,23 @@
+- id: NETWORK-001
+  name: New External Network Destination
+  category: network
+  severity: LOW
+  event_type: external_destination
+  description: A process contacted an external address not present in the baseline.
+  recommendation: Confirm the process owner and expected destination.
+  mitre:
+    technique: T1071
+    name: Application Layer Protocol
+    tactic: Command and Control
+
+- id: NETWORK-002
+  name: Network Connection Burst
+  category: network
+  severity: MEDIUM
+  event_type: connection_burst
+  description: One process created many connections in a short interval.
+  recommendation: Review destination diversity and process legitimacy.
+  mitre:
+    technique: T1046
+    name: Network Service Discovery
+    tactic: Discovery

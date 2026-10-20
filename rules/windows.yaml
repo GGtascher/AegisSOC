@@ -1,0 +1,23 @@
+- id: WINDOWS-001
+  name: Repeated Failed Login
+  category: windows
+  severity: MEDIUM
+  event_type: failed_login
+  description: Windows recorded a failed account login.
+  recommendation: Validate the account, source workstation, and event frequency.
+  mitre:
+    technique: T1110
+    name: Brute Force
+    tactic: Credential Access
+
+- id: WINDOWS-002
+  name: Service Installation
+  category: windows
+  severity: HIGH
+  event_type: service_installed
+  description: Windows recorded the installation of a system service.
+  recommendation: Confirm the service path, signer, owner, and change ticket.
+  mitre:
+    technique: T1543.003
+    name: Windows Service
+    tactic: Persistence

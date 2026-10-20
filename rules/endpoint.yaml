@@ -1,0 +1,46 @@
+- id: ENDPOINT-001
+  name: Encoded PowerShell Command
+  category: endpoint
+  severity: HIGH
+  process_name: powershell.exe
+  command_contains:
+    - "-encodedcommand"
+    - "-enc"
+    - "frombase64string"
+  description: Encoded or decoded content appeared in a PowerShell command line.
+  recommendation: Validate the complete process tree and decoded content in a safe environment.
+  mitre:
+    technique: T1059.001
+    name: PowerShell
+    tactic: Execution
+
+- id: ENDPOINT-002
+  name: PowerShell Download Behavior
+  category: endpoint
+  severity: HIGH
+  process_name: powershell.exe
+  command_contains:
+    - "downloadstring"
+    - "invoke-webrequest"
+    - "invoke-restmethod"
+  description: A PowerShell command line contains a network download primitive.
+  recommendation: Confirm the destination, script origin, and initiating user.
+  mitre:
+    technique: T1105
+    name: Ingress Tool Transfer
+    tactic: Command and Control
+
+- id: ENDPOINT-003
+  name: Command Shell Download Behavior
+  category: endpoint
+  severity: MEDIUM
+  process_name: pwsh.exe
+  command_contains:
+    - "invoke-webrequest"
+    - "invoke-restmethod"
+  description: PowerShell Core contains a network request primitive.
+  recommendation: Review the command and destination.
+  mitre:
+    technique: T1059.001
+    name: PowerShell
+    tactic: Execution

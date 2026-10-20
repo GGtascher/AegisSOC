@@ -1,0 +1,32 @@
+- id: FILE-001
+  name: Script Created in Monitored Location
+  category: file
+  severity: MEDIUM
+  event_type: file_created
+  extensions:
+    - .ps1
+    - .bat
+    - .cmd
+    - .vbs
+    - .js
+  description: A script was created in a monitored folder.
+  recommendation: Confirm the file source and inspect its hash and signer.
+  mitre:
+    technique: T1204
+    name: User Execution
+    tactic: Execution
+
+- id: FILE-002
+  name: Executable Created in Monitored Location
+  category: file
+  severity: MEDIUM
+  event_type: file_created
+  extensions:
+    - .exe
+    - .scr
+  description: An executable file was created in a monitored folder.
+  recommendation: Confirm the file source and validate its signature before running it.
+  mitre:
+    technique: T1204
+    name: User Execution
+    tactic: Execution
