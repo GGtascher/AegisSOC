@@ -121,7 +121,7 @@ Press **Safe Attack Simulation** to generate five clearly marked `SIMULATED` sta
 Requirements: Windows 11, Python 3.12 or newer, and Node.js with npm for the first frontend build.
 
 ```powershell
-cd "E:\Програмування\Programming\AegisSOC"
+cd "PATH"
 python -m venv .venv
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\.venv\Scripts\Activate.ps1
@@ -137,7 +137,7 @@ The application itself runs offline after dependencies are installed.
 ## Usage
 
 ```powershell
-cd "E:\Програмування\Programming\AegisSOC"
+cd "PATH"
 .\.venv\Scripts\Activate.ps1
 python main.py
 ```
@@ -153,7 +153,7 @@ Running as Administrator increases visibility but also increases the impact of a
 ## Testing
 
 ```powershell
-cd "E:\Програмування\Programming\AegisSOC"
+cd "Path"
 .\.venv\Scripts\Activate.ps1
 python -m pytest -q
 cd frontend
