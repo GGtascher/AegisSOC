@@ -276,15 +276,76 @@ Running as Administrator increases visibility but also increases the impact of a
 
 ## Testing
 
+AegisSOC includes automated backend tests and a production frontend build check.
+
+### Python tests
+
+From the project root:
+
 ```powershell
-cd "Path"
 .\.venv\Scripts\Activate.ps1
 python -m pytest -q
-cd frontend
-npm run build
 ```
 
-The test suite covers database initialization, alert state, scoring, YAML loading, process detections, network helpers, gateway and DNS change logic, correlation, audit storage, safe demo behavior, and API health.
+The test suite covers core functionality including:
+
+- database initialization;
+- alert creation and status changes;
+- risk scoring;
+- YAML rule loading;
+- process detection logic;
+- network helper logic;
+- gateway and DNS change detection;
+- incident correlation;
+- rule-state persistence;
+- API health checks;
+- security audit storage;
+- safe demo alerts and incident generation.
+
+All tests should complete without failures before making a release.
+
+### Frontend build check
+
+```powershell
+cd frontend
+npm run build
+cd ..
+```
+
+A successful build creates:
+
+```text
+frontend\dist
+```
+
+and should finish without TypeScript or Vite build errors.
+
+### API health check
+
+Start AegisSOC:
+
+```powershell
+python main.py
+```
+
+Then, in another PowerShell window:
+
+```powershell
+Invoke-RestMethod http://127.0.0.1:8765/api/health | ConvertTo-Json
+```
+
+A healthy instance should report:
+
+```json
+{
+  "status": "ok",
+  "monitoring": true,
+  "database": "ok",
+  "mode": "live"
+}
+```
+
+Some collector information may differ depending on Windows permissions and available system features.
 
 ## Project Structure
 
