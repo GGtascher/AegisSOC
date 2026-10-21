@@ -1,85 +1,138 @@
-# AegisSOC final test report
+# AegisSOC Final Test Report
 
 Test date: 20 October 2026  
-Platform: Windows 11  
-Project path: `E:\Програмування\Programming\AegisSOC`
+Platform: Windows 11
 
 ## Result
 
-The release candidate passed the functional, build and local runtime checks. AegisSOC works as a local monitoring platform and also includes a safe simulation mode for presentations. No destructive attack code is included.
+The release candidate passed the functional, build, and local runtime checks performed during final verification.
 
-## Automated checks
+AegisSOC operated successfully as a local Windows security monitoring platform, including its non-destructive simulation workflow.
+
+No destructive attack code is included in the project.
+
+## Automated Checks
 
 | Check | Result | Details |
 | --- | --- | --- |
-| Python tests | PASS | 15 passed |
-| Frontend production build | PASS | Vite build completed, 2501 modules transformed |
-| npm dependency audit | PASS | 0 known vulnerabilities |
-| PyInstaller build | PASS | `dist\AegisSOC.exe`, 21,088,266 bytes |
-| Frontend from EXE | PASS | HTTP 200 and the complete dashboard loaded |
-| API health from EXE | PASS | status `ok`, database `ok` |
+| Python tests | PASS | 15 tests passed |
+| Frontend production build | PASS | Vite production build completed successfully |
+| npm dependency audit | PASS | 0 known vulnerabilities reported during testing |
+| PyInstaller build | PASS | Standalone executable built successfully |
+| Frontend from executable | PASS | Dashboard loaded successfully |
+| API health from executable | PASS | Application and database reported healthy status |
 
-The only Python test warning comes from a deprecated Starlette test helper. It does not affect the application runtime.
+The Python test suite produced one warning related to a deprecated third-party Starlette test helper. It did not affect application runtime or test completion.
 
-## Runtime checks
+## Runtime Checks
 
-The source version and the compiled EXE were tested on port 8766 because another local Python program was already using the default port 8765. The conflict belongs to the local environment, not to AegisSOC. The application still keeps 8765 as its default port.
+The source version and compiled executable were tested successfully.
 
-| Area | Result | Observed result |
+An alternate local port was used during part of the test because the default port was already occupied by another local application.
+
+AegisSOC continues to use port `8765` by default.
+
+| Area | Result | Observed Result |
 | --- | --- | --- |
-| Health endpoint | PASS | API, database and frontend responded normally |
-| Process collector | PASS | More than 400 processes collected on the test machine |
-| Network collector | PASS | Connections, listeners, interfaces, gateway and DNS collected |
-| Device discovery | PASS | Local ARP and neighbor information displayed |
-| Security audit | PASS | 11 local checks returned; all findings on the test machine were informational |
-| File integrity monitoring | PASS | Create, modify, rename and delete events stored in SQLite |
-| Safe simulation | PASS | Five simulated alerts created in the intended chain |
-| Correlation | PASS | One critical incident with risk 90 and five linked alerts |
-| Persistence | PASS | Incident and timeline remained available after a complete restart |
-| Live dashboard | PASS | WebSocket updates, charts, alert list and incident cards rendered correctly |
+| Health endpoint | PASS | API, database, and frontend responded normally |
+| Process collector | PASS | Live process information was collected |
+| Network collector | PASS | Connections, listeners, interfaces, gateway, and DNS information were collected |
+| Device discovery | PASS | Local ARP and neighbor information was displayed |
+| Security audit | PASS | Local security checks completed successfully |
+| File integrity monitoring | PASS | Create, modify, move, and delete activity was recorded |
+| Safe simulation | PASS | Five simulated alerts were created in the intended sequence |
+| Correlation | PASS | Related simulated alerts were grouped into a critical incident |
+| Persistence | PASS | Incident and timeline information remained available after restart |
+| Live dashboard | PASS | WebSocket updates, charts, alerts, and incident views rendered correctly |
 
-## File integrity test details
+## File Integrity Monitoring Test
 
-A harmless temporary text file was created, changed, renamed and deleted inside a temporary watched directory. The database recorded one create event, three modify observations, one move event and one delete event. The temporary directory was removed and the original monitoring settings were restored.
+A harmless temporary text file was created inside a temporary monitored directory.
 
-## Simulation details
+The test included:
 
-The Safe Attack Simulation button was tested through the browser against the compiled application. The five expected stages were generated without changing system settings or executing harmful commands:
+1. file creation;
+2. modification;
+3. rename;
+4. deletion.
 
-1. suspicious script execution
-2. encoded command behavior
-3. unusual outbound connection
-4. persistence-like event
-5. cleanup activity
+AegisSOC recorded the resulting file activity in SQLite.
 
-The execution and persistence sequence correlated into a critical incident. Simulated records are clearly marked as simulated in the interface and database.
+The temporary test directory was removed after verification and the original monitoring configuration was restored.
 
-## Known environment note
+## Safe Simulation Test
 
-At the time of testing, PID 39008 was already listening on `127.0.0.1:8765` and identified itself as another Python monitoring application. It was deliberately left untouched. Before starting AegisSOC with the default command, close the program currently using port 8765 or start AegisSOC with a different port:
+The Safe Attack Simulation workflow was tested through the web interface.
+
+The expected simulated stages were generated without modifying system security settings or executing malicious commands:
+
+1. suspicious script execution;
+2. encoded-command behavior;
+3. unusual outbound connection;
+4. persistence-like activity;
+5. cleanup activity.
+
+The generated records were clearly marked as simulated.
+
+Related alerts were successfully correlated into an incident.
+
+## Alternate Port Test
+
+If the default port is already occupied, AegisSOC can be started on another local port:
 
 ```powershell
 python main.py --port 8766
 ```
 
-## Reproduction commands
+The dashboard is then available at:
+
+```text
+http://127.0.0.1:8766
+```
+
+## Reproduction Commands
+
+From the AegisSOC project root:
 
 ```powershell
-cd E:\Програмування\Programming\AegisSOC
 .\.venv\Scripts\Activate.ps1
 python -m pytest -q
+```
 
+Build the frontend:
+
+```powershell
 cd frontend
 npm run build
 cd ..
+```
 
+Start the application:
+
+```powershell
+python main.py
+```
+
+Or use an alternate port:
+
+```powershell
 python main.py --port 8766
 ```
 
-For the packaged application:
+For a previously built standalone executable:
 
 ```powershell
 .\dist\AegisSOC.exe --port 8766
 ```
 
-The web interface opens at `http://127.0.0.1:8766/` for the alternate-port commands above.
+## Notes
+
+Runtime results can vary depending on:
+
+- Windows permissions;
+- available network interfaces;
+- current system activity;
+- Event Log access;
+- Administrator privileges.
+
+AegisSOC is a portfolio security monitoring platform and not an enterprise EDR replacement.
