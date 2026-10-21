@@ -98,14 +98,6 @@ Selected detections use local MITRE technique identifiers, including PowerShell 
 
 Severity weights are INFO 0, LOW 5, MEDIUM 15, HIGH 30, and CRITICAL 50. Alert risk also considers confidence. System risk uses a saturating curve, so several small findings increase the score without allowing a raw sum to grow past 100. The result is a heuristic prioritization aid and does not prove compromise.
 
-## Safe Demo Mode
-
-Start with:
-
-```powershell
-python main.py --demo
-```
-
 Press **Safe Attack Simulation** to generate five clearly marked `SIMULATED` stages at short intervals: Office-to-PowerShell execution, encoded PowerShell, an external connection, an executable in Temp, and startup persistence. No malicious command, payload, registry edit, or outbound request is performed. The stages are stored, streamed to the interface, and correlated into a critical incident.
 
 ## Technology Stack
