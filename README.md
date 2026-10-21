@@ -133,7 +133,7 @@ git --version
 Open PowerShell and run:
 
 ```powershell
-git clone https://github.com/GGtascher/AegisSOC.git
+git clone https://github.com/dmytrooliinyk-cyber/AegisSOC.git
 cd AegisSOC
 ```
 
